@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "LightXMLParser",
-        "repositoryURL": "https://github.com/Rubenfer/LightXMLParser.git",
+        "repositoryURL": "https://github.com/pedrodsac/LightXMLParser.git",
         "state": {
-          "branch": null,
-          "revision": "a6adb90467e6b847ae1abe2346ed027cc358c2ca",
-          "version": "0.1.1"
+          "branch": "master",
+          "revision": "52d8fa2ad6f2924b86b2896b2e2c1a025685e645",
+          "version": null
         }
       }
     ]

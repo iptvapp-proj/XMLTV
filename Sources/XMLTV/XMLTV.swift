@@ -43,8 +43,17 @@ public class XMLTV: Codable, Hashable {
     public func getPrograms(channel: TVChannel) -> [TVProgram] {
 		var programs: [TVProgram] = []
         
-        let xmlPrograms = xml.children.filter { $0.name == "programme" && $0.attributes["channel"] == channel.id }
-		for program in xmlPrograms {
+        print("children count: \(xml.children.count)")
+                
+        let xmlPrograms = xml.children.filter { $0.name == "programme" }
+        
+        print("programs count: \(xmlPrograms.count)")
+        
+        let matchingPrograms = xmlPrograms.filter { $0.attributes["channel"] == channel.id }
+        
+        print("mathing programs count: \(matchingPrograms.count)")
+        
+        for program in matchingPrograms {
             let startDate = Date.parse(tvDate: program.attributes["start"])
             let stopDate = Date.parse(tvDate: program.attributes["stop"])
             let title = program.children(name: "title").first?.value
