@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TVChannel {
+public struct TVChannel: Codable, Hashable {
     public let id: String
     public let name: String?
     public let url: String?

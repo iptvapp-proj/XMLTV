@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TVProgram {
+public struct TVProgram: Codable, Hashable {
     public let start: Date?
     public let stop: Date?
     public let channel: TVChannel

@@ -1,14 +1,23 @@
 import Foundation
 import LightXMLParser
 
-private extension XML {
+extension XML {
     func children(name: String) -> [XML] {
         return children.filter { $0.name == name }
     }
 }
 
-public class XMLTV {
-    
+public class XMLTV: Codable, Hashable {
+	public func hash(into hasher: inout Hasher) {
+		return hasher.combine(id)
+	}
+	
+	public static func == (lhs: XMLTV, rhs: XMLTV) -> Bool {
+		return lhs.id == rhs.id
+	}
+	
+	private var id: UUID = UUID()
+	
     private let xml: XML
     
     public init(data: Data) throws {
@@ -16,7 +25,7 @@ public class XMLTV {
     }
     
     public func getChannels() -> [TVChannel] {
-        var channels: [TVChannel] = []
+		var channels: [TVChannel] = []
         
         let xmlChannels = xml.children(name: "channel")
         xmlChannels.forEach { channel in
@@ -32,10 +41,10 @@ public class XMLTV {
     }
     
     public func getPrograms(channel: TVChannel) -> [TVProgram] {
-        var programs: [TVProgram] = []
+		var programs: [TVProgram] = []
         
         let xmlPrograms = xml.children.filter { $0.name == "programme" && $0.attributes["channel"] == channel.id }
-        xmlPrograms.forEach { program in
+		for program in xmlPrograms {
             let startDate = Date.parse(tvDate: program.attributes["start"])
             let stopDate = Date.parse(tvDate: program.attributes["stop"])
             let title = program.children(name: "title").first?.value
@@ -47,7 +56,7 @@ public class XMLTV {
             let categories = program.children(name: "category").map { $0.value }
             let country = program.children(name: "country").first?.value
             let credits = program.children(name: "credits").first?.children.reduce([String:String]()) { dict, credit -> [String:String] in
-                var dict = dict
+				var dict = dict
                 dict[credit.name] = credit.value
                 return dict
                 } ?? [:]
